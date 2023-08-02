@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Huobi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -23,6 +24,8 @@ class ApiController extends Controller
                 }
             }
 
+            Huobi::create($result);
+
             return $result;
         }
 
@@ -33,12 +36,19 @@ class ApiController extends Controller
 
     public function showSelectedValues()
     {
-        $selectedKeys = ['open', 'close'];
+
+        $selectedKeys = ['open', 'close', 'test'];
 
         $results = $this->getSelectedValues($selectedKeys);
 
-        foreach ($results as $key => $value) {
-            echo "$key: $value<br>";
+        foreach ($results as $key => $value)
+        {
+            if (empty($value)){
+                echo "$key : Not found<br>";
+            }else{
+                echo "$key : $value<br>";
+            }
         }
     }
+
 }
